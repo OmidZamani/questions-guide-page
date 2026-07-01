@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="فهرست ۵۷۴ پرسش و راهنمای نوشتن، با طراحی ساده و خوانا برای موبایل و دسکتاپ."
+    />
+    <meta property="og:title" content="دفتر پرسش‌ها" />
+    <meta
+      property="og:description"
+      content="۵۷۴ پرسش و راهنمای کوتاه برای تأمل و نوشتن."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>دفتر پرسش‌ها</title>
+  </head>
+  <body>
+    <div class="reading-progress" aria-hidden="true">
+      <span id="readingProgress"></span>
+    </div>
+
+    <header class="site-header">
+      <nav class="topbar shell" aria-label="ناوبری اصلی">
+        <a class="brand" href="#">
+          <img src="assets/mark.svg" width="32" height="32" alt="" />
+          <span>دفتر پرسش‌ها</span>
+        </a>
+        <button
+          class="icon-button"
+          id="themeToggle"
+          type="button"
+          aria-label="تغییر حالت رنگ"
+          title="تغییر حالت رنگ"
+        >
+          <span aria-hidden="true">◐</span>
+        </button>
+      </nav>
+
+      <section class="intro shell" aria-labelledby="pageTitle">
+        <p class="eyebrow">فهرست تأمل و نوشتن</p>
+        <h1 id="pageTitle">۵۷۴ پرسش و راهنمای کوتاه</h1>
+        <p>
+          برای خواندن آرام و نوشتن بی‌شتاب؛ هر پرسش کنار راهنمایی کوتاه آمده تا مسیر
+          فکر روشن‌تر شود.
+        </p>
+      </section>
+    </header>
+
+    <main class="shell">
+      <section class="reader-tools" aria-label="ابزار خواندن">
+        <div class="search-field">
+          <label for="searchInput">جست‌وجو در پرسش‌ها و راهنماها</label>
+          <div class="input-wrap">
+            <input
+              id="searchInput"
+              type="search"
+              autocomplete="off"
+              inputmode="search"
+              placeholder="مثلا شرم، بدن، کودکی..."
+            />
+            <button
+              class="icon-button clear-button"
+              id="clearSearch"
+              type="button"
+              aria-label="پاک کردن جست‌وجو"
+              title="پاک کردن"
+              hidden
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="tool-row">
+          <div class="jump-field">
+            <label for="jumpInput">شماره</label>
+            <input id="jumpInput" type="number" min="1" max="574" inputmode="numeric" />
+            <button id="jumpButton" type="button">برو</button>
+          </div>
+
+          <div class="segmented" role="group" aria-label="فیلتر پرسش‌ها">
+            <button class="active" data-filter="all" type="button">همه</button>
+            <button data-filter="saved" type="button">نشانه‌دار</button>
+          </div>
+
+          <div class="font-tools" role="group" aria-label="اندازه متن">
+            <button id="smallerText" class="icon-button" type="button" aria-label="کوچک‌تر کردن متن" title="متن کوچک‌تر">
+              <span aria-hidden="true">A−</span>
+            </button>
+            <button id="largerText" class="icon-button" type="button" aria-label="بزرگ‌تر کردن متن" title="متن بزرگ‌تر">
+              <span aria-hidden="true">A+</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="status-line" aria-live="polite">
+          <span id="resultCount">در حال بارگذاری...</span>
+          <span id="savedCount"></span>
+        </div>
+      </section>
+
+      <section class="soft-note" aria-label="یادداشت">
+        <p>
+          هر پرسش را با مکث بخوان. اگر موضوعی سنگین شد، همان‌جا توقف کن و بعدا به آن برگرد.
+        </p>
+      </section>
+
+      <section id="questionList" class="question-list" aria-live="polite"></section>
+      <p id="emptyState" class="empty-state" hidden>چیزی با این جست‌وجو پیدا نشد.</p>
+    </main>
+
+    <button id="toTop" class="to-top" type="button" aria-label="بازگشت به ابتدای صفحه" title="بازگشت به بالا">
+      <span aria-hidden="true">↑</span>
+    </button>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <footer class="site-footer shell">
+      <p>برای خواندن آرام، برگشتن دوباره و نوشتن با حوصله.</p>
+    </footer>
+
+    <template id="questionTemplate">
+      <article class="question-card">
+        <div class="card-top">
+          <a class="number-badge"></a>
+          <div class="card-actions">
+            <button class="icon-button save-button" type="button" aria-label="نشانه‌گذاری پرسش" title="نشانه‌گذاری">
+              <span aria-hidden="true">☆</span>
+            </button>
+            <button class="icon-button link-button" type="button" aria-label="کپی لینک پرسش" title="کپی لینک">
+              <span aria-hidden="true">#</span>
+            </button>
+          </div>
+        </div>
+        <h2 class="question-text"></h2>
+        <p class="guide-text">
+          <span>راهنما</span>
+          <b></b>
+        </p>
+      </article>
+    </template>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
