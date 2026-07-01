@@ -11,6 +11,7 @@ const state = {
   saved: new Set(),
   filter: "all",
   scale: 1,
+  toolsOpen: false,
   toastTimer: null,
 };
 
@@ -21,6 +22,8 @@ const els = {
   template: document.querySelector("#questionTemplate"),
   search: document.querySelector("#searchInput"),
   clearSearch: document.querySelector("#clearSearch"),
+  readerTools: document.querySelector(".reader-tools"),
+  toolsToggle: document.querySelector("#toolsToggle"),
   resultCount: document.querySelector("#resultCount"),
   savedCount: document.querySelector("#savedCount"),
   empty: document.querySelector("#emptyState"),
@@ -87,6 +90,7 @@ function bindEvents() {
 
   els.smallerText.addEventListener("click", () => updateScale(-0.06));
   els.largerText.addEventListener("click", () => updateScale(0.06));
+  els.toolsToggle.addEventListener("click", () => setToolsOpen(!state.toolsOpen));
   els.themeToggle.addEventListener("click", toggleTheme);
 
   els.list.addEventListener("click", (event) => {
@@ -97,6 +101,10 @@ function bindEvents() {
   });
 
   els.toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  document.addEventListener("click", closeToolsFromOutside);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setToolsOpen(false);
+  });
   window.addEventListener("scroll", updateScrollUi, { passive: true });
   window.addEventListener("hashchange", scrollToHash);
 }
@@ -224,6 +232,7 @@ function jumpToNumber() {
     const target = document.querySelector(`#q-${number}`);
     if (!target) return;
     history.replaceState(null, "", `#q-${number}`);
+    setToolsOpen(false);
     focusCard(target);
   });
 }
@@ -302,6 +311,24 @@ function updateScrollUi() {
   const percent = max > 0 ? (window.scrollY / max) * 100 : 0;
   els.progress.style.width = `${Math.min(100, Math.max(0, percent))}%`;
   els.toTop.classList.toggle("is-visible", window.scrollY > 520);
+
+  const shouldCompact = window.scrollY > 180;
+  els.readerTools.classList.toggle("is-compact", shouldCompact);
+  if (!shouldCompact) setToolsOpen(false);
+}
+
+function setToolsOpen(open) {
+  state.toolsOpen = open;
+  els.readerTools.classList.toggle("is-open", open);
+  els.toolsToggle.setAttribute("aria-expanded", String(open));
+  els.toolsToggle.setAttribute("aria-label", open ? "بستن ابزارهای بیشتر" : "نمایش ابزارهای بیشتر");
+  els.toolsToggle.title = open ? "بستن ابزارها" : "ابزارهای بیشتر";
+  els.toolsToggle.querySelector("span").textContent = open ? "×" : "⋯";
+}
+
+function closeToolsFromOutside(event) {
+  if (!state.toolsOpen || !els.readerTools.classList.contains("is-compact")) return;
+  if (!els.readerTools.contains(event.target)) setToolsOpen(false);
 }
 
 function showToast(message) {

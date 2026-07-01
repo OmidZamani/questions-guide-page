@@ -52,54 +52,70 @@
 
     <main class="shell">
       <section class="reader-tools" aria-label="ابزار خواندن">
-        <div class="search-field">
-          <label for="searchInput">جست‌وجو در پرسش‌ها و راهنماها</label>
-          <div class="input-wrap">
-            <input
-              id="searchInput"
-              type="search"
-              autocomplete="off"
-              inputmode="search"
-              placeholder="مثلا شرم، بدن، کودکی..."
-            />
-            <button
-              class="icon-button clear-button"
-              id="clearSearch"
-              type="button"
-              aria-label="پاک کردن جست‌وجو"
-              title="پاک کردن"
-              hidden
-            >
-              <span aria-hidden="true">×</span>
-            </button>
+        <div class="tool-primary">
+          <div class="search-field">
+            <label for="searchInput">جست‌وجو در پرسش‌ها و راهنماها</label>
+            <div class="input-wrap">
+              <input
+                id="searchInput"
+                type="search"
+                autocomplete="off"
+                inputmode="search"
+                placeholder="مثلا شرم، بدن، کودکی..."
+              />
+              <button
+                class="icon-button clear-button"
+                id="clearSearch"
+                type="button"
+                aria-label="پاک کردن جست‌وجو"
+                title="پاک کردن"
+                hidden
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
           </div>
+
+          <button
+            class="icon-button tools-toggle"
+            id="toolsToggle"
+            type="button"
+            aria-label="نمایش ابزارهای بیشتر"
+            aria-controls="readerToolPanel"
+            aria-expanded="false"
+            title="ابزارهای بیشتر"
+          >
+            <span aria-hidden="true">⋯</span>
+          </button>
         </div>
 
-        <div class="tool-row">
-          <div class="jump-field">
-            <label for="jumpInput">شماره</label>
-            <input id="jumpInput" type="number" min="1" max="574" inputmode="numeric" />
-            <button id="jumpButton" type="button">برو</button>
+        <div class="tool-panel" id="readerToolPanel">
+          <div class="tool-row">
+            <div class="jump-field">
+              <label for="jumpInput">شماره</label>
+              <input id="jumpInput" type="number" min="1" max="574" inputmode="numeric" />
+              <button id="jumpButton" type="button">برو</button>
+            </div>
+
+            <div class="segmented" role="group" aria-label="فیلتر پرسش‌ها">
+              <button class="active" data-filter="all" type="button">همه</button>
+              <button data-filter="saved" type="button">نشانه‌دار</button>
+            </div>
+
+            <div class="font-tools" role="group" aria-label="اندازه متن">
+              <button id="smallerText" class="icon-button" type="button" aria-label="کوچک‌تر کردن متن" title="متن کوچک‌تر">
+                <span aria-hidden="true">A−</span>
+              </button>
+              <button id="largerText" class="icon-button" type="button" aria-label="بزرگ‌تر کردن متن" title="متن بزرگ‌تر">
+                <span aria-hidden="true">A+</span>
+              </button>
+            </div>
           </div>
 
-          <div class="segmented" role="group" aria-label="فیلتر پرسش‌ها">
-            <button class="active" data-filter="all" type="button">همه</button>
-            <button data-filter="saved" type="button">نشانه‌دار</button>
+          <div class="status-line" aria-live="polite">
+            <span id="resultCount">در حال بارگذاری...</span>
+            <span id="savedCount"></span>
           </div>
-
-          <div class="font-tools" role="group" aria-label="اندازه متن">
-            <button id="smallerText" class="icon-button" type="button" aria-label="کوچک‌تر کردن متن" title="متن کوچک‌تر">
-              <span aria-hidden="true">A−</span>
-            </button>
-            <button id="largerText" class="icon-button" type="button" aria-label="بزرگ‌تر کردن متن" title="متن بزرگ‌تر">
-              <span aria-hidden="true">A+</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="status-line" aria-live="polite">
-          <span id="resultCount">در حال بارگذاری...</span>
-          <span id="savedCount"></span>
         </div>
       </section>
 

@@ -180,18 +180,37 @@ button {
 
 .reader-tools {
   position: sticky;
-  top: 10px;
+  top: clamp(18px, 3vh, 28px);
   z-index: 10;
   display: grid;
-  gap: 14px;
+  gap: 12px;
   margin-bottom: 18px;
-  padding: 14px;
+  padding: 12px;
   border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
   border-radius: 8px;
   background: var(--surface);
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+  transition:
+    max-width 180ms ease,
+    padding 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.reader-tools.is-compact {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: 8px;
+  box-shadow: 0 12px 32px rgba(25, 35, 31, 0.1);
+}
+
+.tool-primary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
 }
 
 .search-field {
@@ -204,6 +223,19 @@ button {
   color: var(--muted);
   font-size: 0.86rem;
   font-weight: 700;
+}
+
+.reader-tools.is-compact .search-field {
+  gap: 0;
+}
+
+.reader-tools.is-compact .search-field label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .input-wrap {
@@ -226,6 +258,12 @@ button {
   padding-inline-end: 54px;
 }
 
+.reader-tools.is-compact .input-wrap input {
+  min-height: 42px;
+  padding-block: 6px;
+  line-height: 1.45;
+}
+
 .input-wrap input[type="search"]::-webkit-search-cancel-button {
   display: none;
   -webkit-appearance: none;
@@ -245,6 +283,35 @@ button {
   inset-inline-end: 2px;
   border-color: transparent;
   background: transparent;
+}
+
+.tools-toggle {
+  display: none;
+  align-self: end;
+}
+
+.reader-tools.is-compact .tools-toggle {
+  display: inline-grid;
+}
+
+.tool-panel {
+  display: grid;
+  gap: 12px;
+  max-height: 240px;
+  opacity: 1;
+  overflow: hidden;
+  transform: translateY(0);
+  transition:
+    max-height 180ms ease,
+    opacity 160ms ease,
+    transform 180ms ease;
+}
+
+.reader-tools.is-compact:not(.is-open) .tool-panel {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
 }
 
 .tool-row {
@@ -512,8 +579,12 @@ button {
   }
 
   .reader-tools {
-    top: 8px;
+    top: 12px;
     padding: 10px;
+  }
+
+  .reader-tools.is-compact {
+    padding: 8px;
   }
 
   .tool-row {
